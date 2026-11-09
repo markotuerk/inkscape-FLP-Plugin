@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+     width="420mm" height="297mm" viewBox="0 0 420 297">
+  <title>Flucht- und Rettungsplan Vorlage (DIN A3 quer, DIN ISO 23601)</title>
+
+  <defs>
+    <!-- Notausgang (nach ISO 7010 E001/E002, vereinfacht) -->
+    <g id="sym-exit">
+      <rect x="0" y="0" width="10" height="10" fill="#009639" stroke="none"/>
+      <rect x="1.2" y="2" width="3" height="7" fill="white"/>
+      <polygon points="6.5,3.4 6.5,6.6 4.6,5" fill="white"/>
+      <circle cx="6.9" cy="2.4" r="0.55" fill="white"/>
+      <rect x="6.2" y="2.9" width="1.4" height="0.7" fill="white" transform="rotate(45 6.9 3.2)"/>
+      <rect x="6.0" y="3.6" width="1.6" height="3.4" fill="white" transform="rotate(20 6.8 5.3)"/>
+      <rect x="5.9" y="6.9" width="2.2" height="1.1" fill="white" transform="rotate(25 7 7.4)"/>
+    </g>
+    <!-- Feuerlöscher (nach ISO 7010 F01, vereinfacht) -->
+    <g id="sym-extinguisher">
+      <rect x="0" y="0" width="10" height="10" fill="#C8102E" stroke="none"/>
+      <rect x="3.9" y="3.2" width="2.4" height="5.2" rx="0.6" fill="white"/>
+      <rect x="4.2" y="2.2" width="1.8" height="0.9" fill="white"/>
+      <path d="M 6.3 3.6 Q 7.8 3.4 7.4 5.2" fill="none" stroke="white" stroke-width="0.55"/>
+      <polygon points="7.5,5.4 6.9,5.0 7.9,4.7" fill="white"/>
+    </g>
+    <!-- Erste Hilfe (ISO 7010 E003) -->
+    <g id="sym-firstaid">
+      <rect x="0" y="0" width="10" height="10" fill="#009639" stroke="none"/>
+      <rect x="4.1" y="1.8" width="1.8" height="6.4" fill="white"/>
+      <rect x="1.8" y="4.1" width="6.4" height="1.8" fill="white"/>
+    </g>
+    <!-- Brandmelder (nach ISO 7010 F02, vereinfacht) -->
+    <g id="sym-alarm">
+      <rect x="0" y="0" width="10" height="10" fill="#C8102E" stroke="none"/>
+      <path d="M 5.2 2.5 C 6.4 3.7 6.6 4.8 5.9 6.0 C 7.1 5.3 7.4 4.5 7.2 3.7 C 8.3 4.9 8.4 6.5 7.4 7.6 C 6.5 8.6 5.1 8.7 4.2 8.0 C 3.1 7.2 3.0 5.8 3.7 4.7 C 4.2 3.9 4.3 3.4 4.0 2.8 C 4.4 2.8 4.9 3.0 5.2 3.4 Z" fill="white"/>
+    </g>
+    <!-- Sammelstelle (nach ISO 7010 E007, vereinfacht) -->
+    <g id="sym-assembly">
+      <rect x="0" y="0" width="10" height="10" fill="#009639" stroke="none"/>
+      <circle cx="3.0" cy="3.6" r="0.65" fill="white"/>
+      <rect x="2.2" y="4.4" width="1.6" height="2.6" rx="0.7" fill="white"/>
+      <circle cx="7.0" cy="3.6" r="0.65" fill="white"/>
+      <rect x="6.2" y="4.4" width="1.6" height="2.6" rx="0.7" fill="white"/>
+      <circle cx="5.0" cy="2.6" r="0.7" fill="white"/>
+      <rect x="4.0" y="3.5" width="2.0" height="3.5" rx="0.85" fill="white"/>
+    </g>
+    <!-- Standort "Sie sind hier" (Punkt, Durchmesser >= 7 mm) -->
+    <g id="sym-location">
+      <circle cx="5" cy="5" r="4.2" fill="#005BBB" stroke="white" stroke-width="0.6"/>
+      <circle cx="5" cy="5" r="2.2" fill="white"/>
+      <circle cx="5" cy="5" r="1.1" fill="#005BBB"/>
+    </g>
+    <!-- Fluchtweg-Pfeil -->
+    <g id="sym-escape-arrow">
+      <polygon points="0,2.4 8.4,2.4 8.4,0 14,5 8.4,10 8.4,7.6 0,7.6" fill="#009639" stroke="none"/>
+    </g>
+  </defs>
+
+  <!-- ===================== Seite ===================== -->
+  <rect x="0" y="0" width="420" height="297" fill="white" stroke="none"/>
+
+  <!-- ===================== Ebene: Kopf ===================== -->
+  <g inkscape:groupmode="layer" inkscape:label="Kopf" id="layer-kopf">
+    <rect x="0" y="0" width="420" height="22" fill="#f2f2f2" stroke="black" stroke-width="0.35"/>
+    <text id="ueberschrift" x="210" y="16.4" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
+          font-size="15" font-weight="bold" letter-spacing="2" fill="black">FLUCHT- UND RETTUNGSPLAN</text>
+    <text x="414" y="4.6" text-anchor="end" font-family="Arial, Helvetica, sans-serif"
+          font-size="2.4" fill="black">Gebäude: ..................  Etage: ......  Plan-Nr.: ......</text>
+    <text x="414" y="8.4" text-anchor="end" font-family="Arial, Helvetica, sans-serif"
+          font-size="2.4" fill="black">Stand: ......  Maßstab: 1:100  Erstellt von: ..................</text>
+  </g>
+
+  <!-- ===================== Ebene: Grundriss ===================== -->
+  <g inkscape:groupmode="layer" inkscape:label="Grundriss" id="layer-grundriss">
+    <rect id="planbereich" x="10" y="28" width="300" height="259" fill="white" stroke="#999999" stroke-width="0.35"/>
+    <text x="160" y="160" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
+          font-size="4" fill="#bbbbbb">GRUNDRISS HIER EINFÜGEN (Ebene „Grundriss“)</text>
+    <!-- Beispiel-Wände: Außenwände 1,6 mm / Innenwände 0,6 mm -->
+    <g id="beispiel-waende" inkscape:label="Beispielwände (löschen)">
+      <rect x="30" y="50" width="260" height="215" fill="none" stroke="black" stroke-width="1.6"/>
+      <line x1="150" y1="50" x2="150" y2="265" stroke="black" stroke-width="0.6"/>
+      <line x1="30" y1="150" x2="150" y2="150" stroke="black" stroke-width="0.6"/>
+    </g>
+  </g>
+
+  <!-- ===================== Ebene: Fluchtwege ===================== -->
+  <g inkscape:groupmode="layer" inkscape:label="Fluchtwege" id="layer-fluchtwege">
+    <!-- Beispiel: Fluchtwegpfeil (rotiert um 90°), Standortpunkt, Notausgang -->
+    <g id="beispiel-fluchtweg" inkscape:label="Beispiel (löschen)">
+      <use href="#sym-escape-arrow" transform="translate(78 58) rotate(90)" x="0" y="0"/>
+      <use id="standort-punkt" href="#sym-location" x="60" y="60"/>
+      <text id="standort-text" x="60" y="76" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
+            font-size="2.6" fill="#005BBB">Sie sind hier</text>
+      <use href="#sym-exit" x="275" y="45"/>
+    </g>
+  </g>
+
+  <!-- ===================== Ebene: Symbole ===================== -->
+  <g inkscape:groupmode="layer" inkscape:label="Symbole" id="layer-symbole">
+    <!-- Sicherheitszeichen im Planbereich hier einfügen (Klone der defs-Symbole) -->
+  </g>
+
+  <!-- ===================== Ebene: Legende ===================== -->
+  <g inkscape:groupmode="layer" inkscape:label="Legende" id="layer-legende">
+    <rect x="318" y="28" width="94" height="118" fill="white" stroke="black" stroke-width="0.35"/>
+    <text x="365" y="34" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
+          font-size="4" font-weight="bold" fill="black">LEGENDE</text>
+    <line x1="322" y1="36.5" x2="408" y2="36.5" stroke="black" stroke-width="0.3"/>
+
+    <use href="#sym-exit" x="322" y="40"/>
+    <text x="336" y="46.5" font-family="Arial, Helvetica, sans-serif" font-size="2.4" fill="black">Notausgang / Ausgang</text>
+
+    <use href="#sym-escape-arrow" x="322" y="52"/>
+    <text x="336" y="61.5" font-family="Arial, Helvetica, sans-serif" font-size="2.4" fill="black">Fluchtweg</text>
+
+    <use href="#sym-location" x="322" y="66"/>
+    <text x="336" y="74.5" font-family="Arial, Helvetica, sans-serif" font-size="2.4" fill="black">Standort des Betrachters</text>
+
+    <use href="#sym-extinguisher" x="322" y="80"/>
+    <text x="336" y="88.5" font-family="Arial, Helvetica, sans-serif" font-size="2.4" fill="black">Feuerlöscher</text>
+
+    <use href="#sym-alarm" x="322" y="94"/>
+    <text x="336" y="102.5" font-family="Arial, Helvetica, sans-serif" font-size="2.4" fill="black">Brandmelder</text>
+
+    <use href="#sym-firstaid" x="322" y="108"/>
+    <text x="336" y="116.5" font-family="Arial, Helvetica, sans-serif" font-size="2.4" fill="black">Erste-Hilfe-Einrichtung</text>
+
+    <use href="#sym-assembly" x="322" y="122"/>
+    <text x="336" y="130.5" font-family="Arial, Helvetica, sans-serif" font-size="2.4" fill="black">Sammelstelle</text>
+  </g>
+
+  <!-- ===================== Ebene: Verhalten ===================== -->
+  <g inkscape:groupmode="layer" inkscape:label="Verhalten im Gefahrenfall" id="layer-verhalten">
+    <rect x="318" y="152" width="94" height="84" fill="white" stroke="black" stroke-width="0.35"/>
+    <text x="365" y="158" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
+          font-size="4" font-weight="bold" fill="black">VERHALTEN IM GEFAHRENFALL</text>
+    <line x1="322" y1="160.5" x2="408" y2="160.5" stroke="black" stroke-width="0.3"/>
+    <g font-family="Arial, Helvetica, sans-serif" font-size="2.4" fill="black">
+      <text x="322" y="166">1. Ruhe bewahren</text>
+      <text x="322" y="171">2. Feuerwehr alarmieren: 112</text>
+      <text x="322" y="176">3. In Rettungswegen gekennzeichneten</text>
+      <text x="325" y="180">Ausgang benutzen (kein Aufzug!)</text>
+      <text x="322" y="185">4. zur Sammelstelle begeben</text>
+      <text x="322" y="190">5. auf Anweisungen achten</text>
+      <text x="322" y="197" font-weight="bold">Brandmeldung:</text>
+      <text x="322" y="201.5">Deutschland: 112</text>
+      <text x="322" y="207" font-weight="bold">Notfallbeauftragte(r):</text>
+      <text x="322" y="211.5">Name: ......................</text>
+      <text x="322" y="216">Telefon: ....................</text>
+      <text x="322" y="222">Brandmelder und Feuerlöscher</text>
+      <text x="325" y="226">nur bei kleineren Bränden</text>
+      <text x="325" y="230">einsetzen – dann Bereich verlassen</text>
+    </g>
+  </g>
+
+  <!-- ===================== Ebene: Übersichtsplan ===================== -->
+  <g inkscape:groupmode="layer" inkscape:label="Übersichtsplan" id="layer-uebersicht">
+    <rect x="318" y="242" width="94" height="52" fill="white" stroke="black" stroke-width="0.35"/>
+    <text x="365" y="248" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
+          font-size="3.2" font-weight="bold" fill="black">ÜBERSICHTSPLAN</text>
+    <text x="365" y="266" text-anchor="middle" font-family="Arial, Helvetica, sans-serif"
+          font-size="2.4" fill="#bbbbbb">Übersicht + Sammelstelle</text>
+    <use href="#sym-assembly" x="360" y="272"/>
+  </g>
+
+  <!-- ===================== Ebene: Fußzeile ===================== -->
+  <g inkscape:groupmode="layer" inkscape:label="Fußzeile" id="layer-fusszeile">
+    <text x="10" y="294.5" font-family="Arial, Helvetica, sans-serif" font-size="2.2"
+          fill="black">Erstellt nach DIN ISO 23601 · Symbole: DIN EN ISO 7010 · Aushang lagerichtig zum Betrachter anbringen · Plan regelmäßig prüfen (ASR A2.3)</text>
+  </g>
+</svg>
