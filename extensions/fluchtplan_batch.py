@@ -153,7 +153,6 @@ def wege_in_root_schreiben(root, wege: list[dict], ersetzen: bool = True) -> Non
         raise RuntimeError(
             'Ebene "Fluchtwege" nicht gefunden – bitte die A3-Vorlage verwenden.')
 
-    # alte generierte Wege entfernen (nur im Ersetzen-Modus)
     if ersetzen:
         for el in list(ebene):
             if (el.get("id") or "").startswith(WEG_ID_PREFIX):
@@ -181,7 +180,6 @@ def wege_in_root_schreiben(root, wege: list[dict], ersetzen: bool = True) -> Non
 def punkt_aus_element(el) -> tuple[float, float] | None:
     """Mittelpunkt eines Elements (mm/user units) bestimmen."""
     tag = el.tag.replace(f"{{{SVG_NS}}}", "")
-    # direkte Attribut-Fälle (robust, ohne BBox-Berechnung)
     if tag == "circle" or tag == "ellipse":
         try:
             return float(el.get("cx")), float(el.get("cy"))
@@ -195,7 +193,6 @@ def punkt_aus_element(el) -> tuple[float, float] | None:
             return x + w / 2, y + h / 2
         except (TypeError, ValueError):
             pass
-    # allgemein: Bounding-Box-Mitte (inkex: Element.user_unit? -> BBox)
     try:
         bb = el.bounding_box()
         return float(bb.center.x), float(bb.center.y)
@@ -317,7 +314,6 @@ class StandortDialog(tk.Toplevel):
         nb = ttk.Notebook(self)
         nb.pack(fill="both", expand=True, padx=8, pady=8)
 
-        # ---------- Tab 1: Aushangorte ----------
         tab1 = ttk.Frame(nb)
         nb.add(tab1, text="Aushangorte")
         bar1 = ttk.Frame(tab1)
@@ -334,7 +330,6 @@ class StandortDialog(tk.Toplevel):
         self.tree_orte.bind("<Double-1>", self._edit_ort)
         self._refresh_orte()
 
-        # ---------- Tab 2: Fluchtwege ----------
         tab2 = ttk.Frame(nb)
         nb.add(tab2, text="Fluchtwege")
         bar2 = ttk.Frame(tab2)
@@ -354,14 +349,12 @@ class StandortDialog(tk.Toplevel):
         self.tree_wege.bind("<Double-1>", lambda e: self._edit_weg())
         self._refresh_wege()
 
-        # ---------- Fußleiste ----------
         bar = ttk.Frame(self)
         bar.pack(fill="x", padx=8, pady=8)
         ttk.Button(bar, text="Abbrechen", command=self.destroy).pack(side="right")
         ttk.Button(bar, text="Übernehmen & PDFs erzeugen",
                    command=self._fertig).pack(side="right", padx=6)
 
-    # ---- Aushangorte ----
     def _refresh_orte(self) -> None:
         self.tree_orte.delete(*self.tree_orte.get_children())
         for o in self.orte:
@@ -415,7 +408,6 @@ class StandortDialog(tk.Toplevel):
             return
         self._refresh_orte()
 
-    # ---- Fluchtwege ----
     def _refresh_wege(self) -> None:
         self.tree_wege.delete(*self.tree_wege.get_children())
         for w in self.wege:
@@ -452,7 +444,6 @@ class StandortDialog(tk.Toplevel):
             del self.wege[self.tree_wege.index(sel[0])]
             self._refresh_wege()
 
-    # ---- Abschluss ----
     def _fertig(self) -> None:
         self.ok = True
         self.destroy()
@@ -469,6 +460,63 @@ def lade_config(sidecar: Path) -> dict:
         daten.setdefault("wege", [])
         return daten
     return {"orte": [], "wege": []}
+
+
+def resolve_path(base_dir: Path, value: str | Path) -> Path:
+    candidate = Path(value)
+    if not candidate.is_absolute():
+        candidate = (base_dir / candidate).resolve()
+    return candidate
+
+
+def exportiere_fassungen_fuer_master(svg_pfad: Path, orte: list[dict], output_root: Path) -> list[Path]:
+    import xml.etree.ElementTree as ET
+    output_root.mkdir(parents=True, exist_ok=True)
+    base_tree = ET.parse(svg_pfad)
+    erzeugt: list[Path] = []
+    for ort in orte:
+        tree = deepcopy(base_tree)
+        root = tree.getroot()
+        verschiebe_standort(root, float(ort["x"]), float(ort["y"]))
+        drehe_lagerichtig(tree, float(ort.get("winkel", 0)))
+        master_out_dir = output_root / svg_pfad.stem
+        master_out_dir.mkdir(parents=True, exist_ok=True)
+        tmp = master_out_dir / f"{svg_pfad.stem}_{ort['name']}.svg"
+        tree.write(tmp, encoding="unicode", xml_declaration=True)
+        pdf = tmp.with_suffix(".pdf")
+        try:
+            exportiere_pdf(tmp, pdf)
+            erzeugt.append(pdf)
+        except subprocess.CalledProcessError as e:
+            print(f"!! Export fehlgeschlagen für {ort['name']}: {e}", file=sys.stderr)
+    return erzeugt
+
+
+def verarbeite_json(config_pfad: Path) -> list[Path]:
+    config = json.loads(config_pfad.read_text(encoding="utf-8"))
+    workdir = Path(config.get("workdir", "output"))
+    if not workdir.is_absolute():
+        workdir = (config_pfad.parent / workdir).resolve()
+
+    master_cfg = config.get("master") or {}
+    standorte_cfg = config.get("standorte") or {}
+    erzeugt: list[Path] = []
+
+    if not master_cfg:
+        raise ValueError("Keine master-Dateien in der Konfiguration gefunden.")
+
+    for name, master_rel in master_cfg.items():
+        svg_pfad = resolve_path(config_pfad.parent, master_rel)
+        if not svg_pfad.exists():
+            print(f"!! Master-Datei fehlt: {svg_pfad}", file=sys.stderr)
+            continue
+        orte = standorte_cfg.get(name, [])
+        if not orte:
+            print(f"!! Keine Standorte für Geschoss {name}", file=sys.stderr)
+            continue
+        erzeugt.extend(exportiere_fassungen_fuer_master(svg_pfad, orte, workdir))
+
+    return erzeugt
 
 
 def verarbeite(svg_pfad: Path) -> list[Path]:
@@ -495,12 +543,10 @@ def verarbeite(svg_pfad: Path) -> list[Path]:
     ET.register_namespace("", SVG_NS)
     ET.register_namespace("inkscape", INKSCAPE_NS)
 
-    # 1) Fluchtwege in den Master schreiben (dort dauerhaft gespeichert)
     master_tree = ET.parse(svg_pfad)
     wege_in_svg_schreiben(master_tree, dlg.wege)
     master_tree.write(svg_pfad, encoding="unicode", xml_declaration=True)
 
-    # 2) Fassungen aus dem aktualisierten Master erzeugen
     out_dir = svg_pfad.parent / "Aushangfassungen"
     out_dir.mkdir(exist_ok=True)
     base_tree = ET.parse(svg_pfad)
@@ -528,9 +574,20 @@ def verarbeite(svg_pfad: Path) -> list[Path]:
 def main_offline() -> int:
     """Ohne Inkscape starten (Test): Datei als Argument."""
     if len(sys.argv) < 2:
-        print("Nutzung (ohne Inkscape): python fluchtplan_batch.py master.svg")
+        print("Nutzung:\n  python fluchtplan_batch.py master.svg\n  python fluchtplan_batch.py standorte.json")
         return 2
-    verarbeite(Path(sys.argv[1]))
+
+    target = Path(sys.argv[1])
+    if target.suffix.lower() == ".json":
+        try:
+            erzeugt = verarbeite_json(target)
+            print(f"{len(erzeugt)} PDFs erzeugt.")
+            return 0
+        except Exception as exc:
+            print(f"Fehler: {exc}", file=sys.stderr)
+            return 1
+
+    verarbeite(target)
     return 0
 
 
@@ -543,7 +600,6 @@ if inkex is not None:
           - auswahl: Fluchtweg aus aktuell ausgewählten Punkten zeichnen
         """
 
-        # ---------- Modus: Fluchtweg aus Auswahl ----------
         def _auswahl_workflow(self) -> None:
             auswahl = list(self.svg.selection)
             punkte = stuetzpunkte_aus_auswahl(auswahl)
@@ -567,7 +623,6 @@ if inkex is not None:
                 root_tk.destroy()
                 return
 
-            # in Sidecar speichern, damit der Hauptdialog den Weg kennt
             try:
                 sidecar = Path(self.svg_path).with_name(
                     Path(self.svg_path).name + ".standorte.json")
@@ -580,7 +635,6 @@ if inkex is not None:
                     json.dumps(config, indent=2, ensure_ascii=False),
                     encoding="utf-8")
 
-            # direkt ins geöffnete Dokument zeichnen
             wege_in_root_schreiben(self.svg, [dlg.weg], ersetzen=False)
             root_tk.destroy()
             inkex.utils.errormsg(
@@ -588,7 +642,6 @@ if inkex is not None:
                 f"Stützpunkten eingefügt (Ebene „Fluchtwege“).\n"
                 "Die ausgewählten Marker-Objekte kannst du jetzt löschen.")
 
-        # ---------- Modus: Batch ----------
         def _batch_workflow(self) -> None:
             try:
                 svg_pfad = Path(self.svg_path)
