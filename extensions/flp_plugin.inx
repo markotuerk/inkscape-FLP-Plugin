@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
-  <name>FLP Plugin</name>
-  <id>com.example.flp_plugin</id>
-  <effect>
+  <name>Fluchtplan: Fluchtweg aus Auswahl zeichnen</name>
+  <id>de.fluchtplan.weg_auswahl</id>
+  <dependency type="executable" location="inx">fluchtplan_batch.py</dependency>
+  <effect needs-document="true">
     <object-type>all</object-type>
     <effects-menu>
-      <submenu name="Export"/>
+      <submenu name="Flucht- und Rettungsplan"/>
     </effects-menu>
+    <menu-tip>Ausgewählte Punkte/Stützpunkt-Marker werden zum Fluchtweg (Breite wählbar)</menu-tip>
   </effect>
   <script>
-    <command location="inx" interpreter="python">flp_plugin.py</command>
+    <param name="modus" type="string" gui-hidden="true">auswahl</param>
+    <command location="inx" interpreter="python">fluchtplan_batch.py</command>
   </script>
-  <param name="output" type="string" gui-text="Output filename">output.flp</param>
-  <param name="mode" type="optiongroup" gui-text="Mode">
-    <option value="export">Export</option>
-    <option value="preview">Preview</option>
-  </param>
 </inkscape-extension>
