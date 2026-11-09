@@ -1,0 +1,35 @@
+{
+  "workdir": "output",
+  "master": {
+    "EG": "master/EG.svg",
+    "OG1": "master/OG1.svg",
+    "OG2": "master/OG2.svg",
+    "OG3": "master/OG3.svg"
+  },
+  "standorte": {
+    "EG": [
+      { "name": "EG-Flur-Nord",   "x": 60,  "y": 60,  "winkel": 0   },
+      { "name": "EG-Foyer",       "x": 200, "y": 80,  "winkel": 90  },
+      { "name": "EG-Treppe-Ost",  "x": 275, "y": 150, "winkel": 180 },
+      { "name": "EG-Flur-Sued",   "x": 120, "y": 220, "winkel": 270 }
+    ],
+    "OG1": [
+      { "name": "OG1-Flur-Nord",  "x": 60,  "y": 60,  "winkel": 0   },
+      { "name": "OG1-Aufzug",      "x": 210, "y": 90,  "winkel": 90  },
+      { "name": "OG1-Treppe-West", "x": 40,  "y": 160, "winkel": 180 },
+      { "name": "OG1-Kaffeekueche", "x": 150, "y": 230, "winkel": 270 }
+    ],
+    "OG2": [
+      { "name": "OG2-Flur-Nord",  "x": 60,  "y": 60,  "winkel": 0   },
+      { "name": "OG2-Aufzug",     "x": 210, "y": 90,  "winkel": 90  },
+      { "name": "OG2-Treppe-Ost", "x": 275, "y": 150, "winkel": 180 },
+      { "name": "OG2-Flur-Sued",  "x": 120, "y": 220, "winkel": 270 }
+    ],
+    "OG3": [
+      { "name": "OG3-Flur-Nord",  "x": 60,  "y": 60,  "winkel": 0   },
+      { "name": "OG3-Treppe-West", "x": 40, "y": 160, "winkel": 90  },
+      { "name": "OG3-Besprechung", "x": 180, "y": 120, "winkel": 180 },
+      { "name": "OG3-Flur-Sued",  "x": 120, "y": 220, "winkel": 270 }
+    ]
+  }
+}
