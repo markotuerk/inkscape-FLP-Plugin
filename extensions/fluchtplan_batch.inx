@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Fluchtplan: Aushangfassungen erzeugen</name>
+  <id>de.fluchtplan.batch</id>
+  <dependency type="executable" location="inx">fluchtplan_batch.py</dependency>
+  <effect needs-document="true">
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Flucht- und Rettungsplan"/>
+    </effects-menu>
+    <menu-tip>Erzeugt lagerichtige Aushangfassungen (PDF) des geöffneten Master-Plans</menu-tip>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">fluchtplan_batch.py</command>
+  </script>
+</inkscape-extension>
